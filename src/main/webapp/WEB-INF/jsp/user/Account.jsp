@@ -4,14 +4,14 @@
     </b>
 </p>
 
-<div class="account-menu">
+<div class="account-menu" style="text-align: center;">
     <p class="box">
-        <a href="archive" >Your archive of books </a>
+        <a href="archive/" >Your archive of books </a>
     </p>
 
 
     <p class="box">
-        <a href="YourBooks.aspx" >Your books </a>
+        <a href="userBooks/" >Your books </a>
     </p>
 
     <p class="box">

@@ -3,15 +3,15 @@
 <form action="loginUser" method="POST">
     <table style="font-size:16px;">
         <tr>
-            <td>Enter Email:</td>
+            <td class="col-1">Enter email:</td>
             <td>
-                <input type="email" id="email" name="email" value="${userDto.email}" />
+                <input class="col-2" type="email" id="email" name="email" value="${userDto.email}" />
             </td>
         </tr>
         <tr>
-            <td style="height: 44px">Enter password:</td>
+            <td class="col-1" style="height: 44px">Enter password:</td>
             <td style="height: 44px">
-                <input type="password" id="password" name="password" value="${userDto.password}" />
+                <input class="col-2" type="password" id="password" name="password" value="${userDto.password}" />
             </td>
         </tr>
         <tr>
@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td colspan="2" align="center">
-                <input type="submit" value="Login" />
+                <button type="submit" class="button-3">Login</button>
             </td>
         </tr>
         <tr>

@@ -19,13 +19,64 @@ body {
 }
 
 #main {
-    padding: 10px;
+    padding: 15px;
 }
 
 #content {
     float: left;
-    width: 1225px;
+    width: 1200px;
     background-color: darkgray;
+}
+
+.button-3 {
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+    letter-spacing: .05em;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    font-family: 'Montserrat', sans-serif;
+    color: #904C6E;
+    background: white;
+    border: 1px solid;
+    cursor: pointer;
+    transition: .3s linear;
+}
+.button-3:hover {
+    background: #F0C7A7;
+}
+.button-3:after {
+    content: "\e82e";
+    font-family: Linearicons-Free;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+    margin-left: 30px;
+    padding-left: 20px;
+    border-left: 1px solid;
+}
+
+.col-1 {
+    color: #232323;
+    background: transparent;
+    border: 1px solid #232323;
+    position: relative;
+    font-size: 14px;
+    letter-spacing: .3em;
+    font-family: 'Montserrat', sans-serif;
+    padding: 6px 15px 6px 15px;
+    transition: .2s ease-in-out;
+}
+
+.col-2 {
+    font-size: 18px;
 }
 
 .books #head {

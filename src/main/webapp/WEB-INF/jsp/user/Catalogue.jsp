@@ -18,7 +18,7 @@
 </c:forEach>
 <ul style="padding-inline: 40px">
     <c:if test="${currentPage gt 1}">
-        <a href="/user/archive/${currentPage - 1}">Previous</a>
+        <a href="${currentPage - 1}">Previous</a>
     </c:if>
     <c:forEach begin="1" end="${nOfPages}" var="i">
         <c:choose>
@@ -32,7 +32,7 @@
     </c:forEach>
     <%--For displaying Next link --%>
     <c:if test="${currentPage < nOfPages}">
-        <a href="/user/archive/${currentPage + 1}">Next</a>
+        <a href="${currentPage + 1}">Next</a>
     </c:if>
     <c:if test="${not empty error}">
         ${error}

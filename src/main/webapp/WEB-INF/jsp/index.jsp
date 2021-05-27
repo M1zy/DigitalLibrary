@@ -9,7 +9,7 @@
     <link href="<c:url value="../../resources/css/style.css" />" rel="stylesheet">
     <style type="text/css">
         body{
-            background: #c7b39b url(../../resources/css/images/crossline-line.jpg);
+            background: #c7b39b url(../../resources/logincss/prism.png);
         }
     </style>
 </head>
@@ -84,15 +84,14 @@
                     <h2 style="font-family:CountrySide,serif; font-size:20px; color:orange;">Search by </h2>
                     <div class="box-content">
 
-                        <label>Book Name</label>
                         <input type="text" class="field" id ="searchtextbox" />
 
                         <input type="button" class="search-submit" value="Search" onclick="search()" style="font-size:13px;" />
-                        <p> please enter item name inside the textbox</p>
+                        <p class="col-1" style="color: black; background-color: darkslategrey;"> please enter item name inside the textbox</p>
                     </div>
                 </div>
 
-                <div class="box categories">
+                <div class="box categories" style="border: 1px solid #232323;">
                     <c:if test="${category == false}">
                         <div style="background-color: white">
                         <a href="/switchCategory">Switch category</a>
@@ -127,9 +126,9 @@
             </div>
             <div class="cl">&nbsp;</div>
         </div>
-        <div class="side-full">
+        <div >
 
-            <div class="cols" style="background:rgba(120,120,133,0.86); color:black; font-size:15px;">
+            <div class="cols" style="background-color: dimgrey; color:black; font-size:15px;">
                 <div class="cl">&nbsp;</div>
                 <div class="col">
                     <h3 class="ico ico1" style="font-family:CountrySide,serif; font-size:18px;">emails</h3>
@@ -146,7 +145,7 @@
             </div>
         </div>
 
-        <div id="footer" style="font-family:CountrySide,serif; font-size:18px; color:black;">
+        <div id="footer" style="font-family:CountrySide,serif; font-size:18px; color:black; ">
             <p class="right"> &copy; 2020 Digital Library. Designed by Kirill Slabko </p>
         </div>
 

@@ -15,7 +15,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <style>
         body{
-            background: #c7b39b url(../../../resources/logincss/crossline-line.jpg);
+            background: #c7b39b url(../../../resources/logincss/prism.png);
         }
     </style>
 </head>

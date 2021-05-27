@@ -43,6 +43,9 @@ public class Book extends Essence {
     @NotNull
     private Integer pages;
 
+    @ManyToOne
+    private User adderUser;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "book_id")
     private Set<BookRegistration> bookRegistrations = new HashSet<>();

@@ -133,6 +133,7 @@ public class UserController {
         if(userService.existByEmailAndPassword(userDto.getEmail(),userDto.getPassword())&&userService.getUserByEmailAndPassword(userDto.getEmail(),userDto.getPassword()).getAuthority()){
             mav = new ModelAndView("admin/Admin");
             session.setAttribute("admin", "admin");
+            session.setAttribute("user",userService.getUserByEmailAndPassword(userDto.getEmail(),userDto.getPassword()));
             response.sendRedirect("AdminPage");
         }
         else{
@@ -257,28 +258,6 @@ public class UserController {
         userService.save(newUser);
         response.sendRedirect("/user/allUsers");
         return getAllUsersPage(response,session);
-    }
-
-    @RequestMapping(value = "/archive/{currentPage}", method = RequestMethod.GET)
-    public ModelAndView archive(@PathVariable(required = false) Integer currentPage,HttpSession session){
-        ModelAndView mav = new ModelAndView("index");
-        mav.addObject("mode", "Mode_archive");
-        User user = (User) session.getAttribute("user");
-        mav.addObject("listBook", user.getBooksArchive());
-        int nOfPages = user.getBooksArchive().size() / 8;
-
-        if (nOfPages % 8 > 0) {
-            nOfPages++;
-        }
-
-        session.setAttribute("nOfPages", nOfPages);
-        session.setAttribute("currentPage", currentPage);
-        return mav;
-    }
-
-    @RequestMapping(value = "/archive", method = RequestMethod.GET)
-    public ModelAndView archive(HttpSession session){
-        return archive(1,session);
     }
 
     public boolean isLibraryContainingBooks(Library library, Set<Book> books){

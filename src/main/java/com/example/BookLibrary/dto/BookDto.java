@@ -23,6 +23,6 @@ public class BookDto {
     private Integer year;
 
     @NotEmpty(message = "description must not be empty")
-    @Length(min = 20, message = "Minimal length of description is 20 symbols")
+    @Length(min = 10, message = "Minimal length of description is 10 symbols")
     private String description;
 }

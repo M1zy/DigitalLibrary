@@ -1,9 +1,6 @@
 package com.example.BookLibrary.service;
 
-import com.example.BookLibrary.domains.Author;
-import com.example.BookLibrary.domains.Book;
-import com.example.BookLibrary.domains.Genre;
-import com.example.BookLibrary.domains.Library;
+import com.example.BookLibrary.domains.*;
 import com.example.BookLibrary.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +54,14 @@ public class BookService {
         return getBooks(currentPage,recordsPerPage,listByGenre(genre));
     }
 
+    public List<Book> findBooksByAdderUser(int currentPage, int recordsPerPage, User user){
+        return getBooks(currentPage,recordsPerPage,listByAdderUser(user));
+    }
+
+    public List<Book> findBooksByUserArchive(int currentPage, int recordsPerPage, User user){
+        return getBooks(currentPage,recordsPerPage,listByUserArchive(user));
+    }
+
     public Book get(Long id) {
         return bookRepository.findById(id).get();
     }
@@ -79,6 +84,14 @@ public class BookService {
 
     public List<Book> listByGenre(Genre genre){
         return bookRepository.findBooksByGenresContains(genre);
+    }
+
+    public List<Book> listByAdderUser(User user){
+        return bookRepository.findBooksByAdderUser(user);
+    }
+
+    public List<Book> listByUserArchive(User user){
+        return bookRepository.findBooksByUsersArchiveContains(user);
     }
 
     public boolean exist(Long id){

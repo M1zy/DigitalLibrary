@@ -182,6 +182,48 @@ public class BookController {
         return mav;
     }
 
+    @RequestMapping(value = "/user/userBooks/",method = RequestMethod.GET)
+    public ModelAndView filterByAdderUser(HttpSession session) {
+        return filterByAdderUser(session,1);
+    }
+
+    @RequestMapping(value = "/user/userBooks/{currentPage}",method = RequestMethod.GET)
+    public ModelAndView filterByAdderUser(HttpSession session,@PathVariable(required = false) Integer currentPage) {
+        ModelAndView mav = home(session);
+        mav.addObject("mode","Mode_archive");
+        List<Book> listBooks = bookService.findBooksByAdderUser(currentPage,recordsPerPage,(User) session.getAttribute("user"));
+        mav.addObject("listBook", listBooks);
+        int nOfPages = bookService.listByAdderUser((User) session.getAttribute("user")).size() / recordsPerPage;
+        if (bookService.listByAdderUser(((User) session.getAttribute("user"))).size() % recordsPerPage > 0) {
+            nOfPages++;
+        }
+        session.setAttribute("nOfPages", nOfPages);
+        session.setAttribute("currentPage", currentPage);
+        return mav;
+    }
+
+    @RequestMapping(value = "/user/archive/{currentPage}", method = RequestMethod.GET)
+    public ModelAndView archive(@PathVariable(required = false) Integer currentPage,HttpSession session){
+        ModelAndView mav = new ModelAndView("index");
+        mav.addObject("mode", "Mode_archive");
+        User user = (User) session.getAttribute("user");
+        mav.addObject("listBook", bookService.findBooksByUserArchive(currentPage,recordsPerPage,user));
+        int nOfPages = bookService.listByUserArchive(user).size() / recordsPerPage;
+
+        if (bookService.listByUserArchive(user).size() % recordsPerPage > 0) {
+            nOfPages++;
+        }
+
+        session.setAttribute("nOfPages", nOfPages);
+        session.setAttribute("currentPage", currentPage);
+        return mav;
+    }
+
+    @RequestMapping(value = "/user/archive/", method = RequestMethod.GET)
+    public ModelAndView archive(HttpSession session){
+        return archive(1,session);
+    }
+
     @RequestMapping(value = "/Catalog/add", method = RequestMethod.GET)
     public ModelAndView getAddingBookPage(){
         ModelAndView mav = new ModelAndView("admin/Admin");
@@ -280,6 +322,7 @@ public class BookController {
         }
             try {
                 Book book = mapper.convertToEntity(bookDto);
+                book.setAdderUser((User) session.getAttribute("user"));
                 addingBookToCatalogue(book,pdf,file,authors,genres);
                 mav.addObject("mode", "Mode_adminHome");
             } catch (Exception exception) {
