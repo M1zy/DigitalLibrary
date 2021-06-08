@@ -38,6 +38,7 @@ public class Book extends Essence {
     private String description;
     private String path;
     private String pdf;
+    private Boolean verified = Boolean.TRUE;
 
     @Min(value = 1)
     @NotNull

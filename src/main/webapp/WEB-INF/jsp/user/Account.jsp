@@ -15,6 +15,6 @@
     </p>
 
     <p class="box">
-        <a href="Add_book.aspx" >Add book </a>
+        <a href="/user/account/add" >Add book </a>
     </p>
 </div>

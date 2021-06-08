@@ -40,10 +40,10 @@
         </div>
         <!-- /. NAV TOP  -->
         <div class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
+            <div class="sidebar-collapse" ">
                 <a href="/" style="color:red; margin-top:100px;">Back to library</a>
                 <h3 class="menu-title" style="font-family:Forte fantasy; font-size:20px; color:orange;">Books-menu</h3>
-                <ul class="nav" id="main-menu">
+                <ul class="nav" id="main-menu" style="color:orange;">
 
 
                     <li class="active-link">
@@ -55,7 +55,7 @@
                         <a href="/Catalog/" >Books </a>
                     </li>
                     <li >
-                        <a href="BooksRequests.aspx" >Books requests </a>
+                        <a href="/Catalog/VerificationBooks" >Books requests </a>
                     </li>
 
 
@@ -94,7 +94,7 @@
                     <div class="cl">&nbsp;</div>
                     <div id="content">
                 <div class="books">
-                <c:if test="${mode == 'Mode_adminHome' || mode == null}">
+                <c:if test="${mode == 'Mode_Home' || mode == null}">
                     <jsp:include page="../admin/Home.jsp" />
                 </c:if>
 
@@ -116,6 +116,14 @@
 
                     <c:if test="${mode == 'Mode_newUser'}">
                         <jsp:include page="../admin/userForm.jsp" />
+                    </c:if>
+
+                    <c:if test="${mode == 'Mode_notVerifiedBooks'}">
+                        <jsp:include page="../admin/Books.jsp" />
+                    </c:if>
+
+                    <c:if test="${mode == 'Mode_verificationBook'}">
+                        <jsp:include page="../admin/VerificationBooks.jsp" />
                     </c:if>
                 </div>
                     </div>

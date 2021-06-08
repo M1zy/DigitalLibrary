@@ -65,14 +65,14 @@ public class BookController {
     public ModelAndView home(HttpSession session, @PathVariable(required = false) Integer currentPage) {
         List<Author> authorList = authorService.listAll();
         ModelAndView mav = new ModelAndView("index");
-        mav.addObject("mode", "Mode_home");
+        mav.addObject("mode", "Mode_Home");
         session.setAttribute("listAuthors", authorList);
         session.setAttribute("listGenres", genreService.listAll());
-        List<Book> listBooks = bookService.findBooks(currentPage,recordsPerPage);
+        List<Book> listBooks = bookService.findVerifiedBooks(currentPage,recordsPerPage);
         mav.addObject("listBook", listBooks);
-        int nOfPages = bookService.listAll().size() / recordsPerPage;
+        int nOfPages = bookService.listVerified().size() / recordsPerPage;
 
-        if (bookService.listAll().size() % recordsPerPage > 0) {
+        if (bookService.listVerified().size() % recordsPerPage > 0) {
             nOfPages++;
         }
 
@@ -95,7 +95,7 @@ public class BookController {
         if(!bookService.exist(id)){
             throw new RecordNotFoundException("Invalid book id : " + id);
         }
-        Book book = bookService.get(id);
+        Book book = bookService.getVerified(id);
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("book", book);
         mav.addObject("mode", "Mode_book");
@@ -150,7 +150,7 @@ public class BookController {
         ModelAndView mav = new ModelAndView("index");
         List<Book> books = bookService.listByName(keyword);
         mav.addObject("listBook",books);
-        mav.addObject("mode", "Mode_home");
+        mav.addObject("mode", "Mode_Home");
         return mav;
     }
 
@@ -159,7 +159,7 @@ public class BookController {
         ModelAndView mav = new ModelAndView("index");
         List<Book> books = bookService.listByAuthor(authorService.get(id));
         mav.addObject("listBook",books);
-        mav.addObject("mode", "Mode_home");
+        mav.addObject("mode", "Mode_Home");
         return mav;
     }
 
@@ -226,7 +226,18 @@ public class BookController {
 
     @RequestMapping(value = "/Catalog/add", method = RequestMethod.GET)
     public ModelAndView getAddingBookPage(){
+        List<Author> listAuthor = authorService.listAll();
+        List<Genre> listGenre = genreService.listAll();
         ModelAndView mav = new ModelAndView("admin/Admin");
+        mav.addObject("listAuthor", listAuthor);
+        mav.addObject("listGenre", listGenre);
+        mav.addObject("mode", "Mode_adminAddBook");
+        return mav;
+    }
+
+    @RequestMapping(value = "user/account/add", method = RequestMethod.GET)
+    public ModelAndView getAddingUserBookPage(){
+        ModelAndView mav = new ModelAndView("index");
         List<Author> listAuthor = authorService.listAll();
         List<Genre> listGenre = genreService.listAll();
         mav.addObject("listAuthor", listAuthor);
@@ -276,6 +287,41 @@ public class BookController {
         return mav;
     }
 
+
+    @RequestMapping(value = "/Catalog/VerificationPage/{id}", method = RequestMethod.GET)
+    public ModelAndView getVerificationBookPage(@PathVariable Long id, HttpServletResponse response, HttpSession session) throws IOException {
+        if(!bookService.exist(id)){
+            throw new RecordNotFoundException("Invalid book id : " + id);
+        }
+        redirectToMainPage(response,session);
+        Book book = bookService.get(id);
+        ModelAndView mav = new ModelAndView("admin/Admin");
+        mav.addObject("book",book );
+        mav.addObject("mode", "Mode_verificationBook");
+        return mav;
+    }
+
+    @RequestMapping(value = "/Catalog/VerificationPage/verify/{id}", method = RequestMethod.GET)
+    public RedirectView VerifyBook(@PathVariable Long id, HttpServletResponse response, HttpSession session, HttpServletRequest request) throws IOException {
+        if(!bookService.exist(id)){
+            throw new RecordNotFoundException("Invalid book id : " + id);
+        }
+        redirectToMainPage(response,session);
+        Book book = bookService.get(id);
+        book.setVerified(Boolean.TRUE);
+        bookService.save(book);
+        return new RedirectView("/Catalog/");
+    }
+
+    @RequestMapping(value = "/Catalog/VerificationBooks", method = RequestMethod.GET)
+    public ModelAndView getVerificationBooksPage(HttpServletResponse response, HttpSession session) throws IOException {
+        redirectToMainPage(response,session);
+        ModelAndView mav = new ModelAndView("admin/Admin");
+        mav.addObject("mode", "Mode_notVerifiedBooks");
+        mav.addObject("listBook", bookService.listNotVerified());
+        return mav;
+    }
+
     public void addingBookToCatalogue(Book book, MultipartFile pdf, MultipartFile file, Long[] authors,Long[] genres){
         if(authors!=null) {
             Set<Long> authorsIds = new HashSet<>(Arrays.asList(authors));
@@ -309,9 +355,16 @@ public class BookController {
     public ModelAndView saveBook(@Valid @ModelAttribute BookDto bookDto, BindingResult result, @RequestParam(required = false) Long[] authors,
                                  @RequestParam(required = false) Long[] genres, @RequestParam MultipartFile file, @RequestParam MultipartFile pdf,
                                  HttpSession session, HttpServletResponse response) throws IOException {
-        ModelAndView mav;
+        ModelAndView mav = new ModelAndView("index");
+        if(session.getAttribute("admin")!=null) {
             mav = new ModelAndView("admin/Admin");
-            redirectToMainPage(response,session);
+        }
+        else if(session.getAttribute("user")!=null){
+            mav = new ModelAndView("index");
+        }
+        else{
+            response.sendRedirect("/");
+        }
         if (result.hasErrors()) {
             mav.addObject("mode","Mode_adminAddBook");
             mav.addObject("bookDto", bookDto);
@@ -320,18 +373,20 @@ public class BookController {
             mav.addObject("error",result.getAllErrors().get(0).getDefaultMessage());
             return mav;
         }
-            try {
-                Book book = mapper.convertToEntity(bookDto);
-                book.setAdderUser((User) session.getAttribute("user"));
-                addingBookToCatalogue(book,pdf,file,authors,genres);
-                mav.addObject("mode", "Mode_adminHome");
-            } catch (Exception exception) {
-                mav.addObject("mode", "Mode_adminAddBook");
-                mav.addObject("listAuthor",authorService.listAll());
-                mav.addObject("listGenre",genreService.listAll());
-                mav.addObject("bookDto",bookDto);
-                mav.addObject("error", "invalid attributes");
-            }
+        try {
+            Book book = mapper.convertToEntity(bookDto);
+            book.setAdderUser((User) session.getAttribute("user"));
+            book.setVerified(Boolean.FALSE);
+            addingBookToCatalogue(book,pdf,file,authors,genres);
+            mav.addObject("mode", "Mode_Home");
+            response.sendRedirect("/");
+        } catch (Exception exception) {
+            mav.addObject("mode", "Mode_adminAddBook");
+            mav.addObject("listAuthor",authorService.listAll());
+            mav.addObject("listGenre",genreService.listAll());
+            mav.addObject("bookDto",bookDto);
+            mav.addObject("error", "invalid attributes");
+        }
             return mav;
     }
 
@@ -400,7 +455,7 @@ public class BookController {
                 book.setYear(bookDto.getYear());
                 book.setName(bookDto.getName());
                 addingBookToCatalogue(book,pdf,file,authors,genres);
-                mav.addObject("mode", "Mode_adminHome");
+                mav.addObject("mode", "Mode_Home");
             }
             catch (Exception ex){
                 mav.addObject("mode", "Mode_redactingBook");

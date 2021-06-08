@@ -147,7 +147,7 @@ public class UserController {
     public ModelAndView loginAdmin(HttpSession session){
         if(session.getAttribute("admin")!=null){
             ModelAndView mav = new ModelAndView("admin/Admin");
-            mav.addObject("mode", "Mode_adminHome");
+            mav.addObject("mode", "Mode_Home");
             return mav;}
         return new ModelAndView("admin/AdminLogin");
     }

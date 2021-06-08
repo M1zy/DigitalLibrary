@@ -28,6 +28,14 @@ public class BookService {
         return (List<Book>) bookRepository.findAll();
     }
 
+    public List<Book> listVerified() {
+        return bookRepository.findBooksByVerifiedTrue();
+    }
+
+    public List<Book> listNotVerified() {
+        return bookRepository.findBooksByVerifiedFalse();
+    }
+
     public List<Book> getBooks(int currentPage, int recordsPerPage, List<Book> bookList){
         if(currentPage==0)currentPage=1;
         List<Book> books = new ArrayList<>();
@@ -50,6 +58,10 @@ public class BookService {
         return getBooks(currentPage,recordsPerPage,listAll());
     }
 
+    public List<Book> findVerifiedBooks(int currentPage, int recordsPerPage) {
+        return getBooks(currentPage,recordsPerPage,listVerified());
+    }
+
     public List<Book> findBooksByGenre(int currentPage, int recordsPerPage, Genre genre){
         return getBooks(currentPage,recordsPerPage,listByGenre(genre));
     }
@@ -66,6 +78,10 @@ public class BookService {
         return bookRepository.findById(id).get();
     }
 
+    public Book getVerified(Long id) {
+        return bookRepository.findBookByIdAndVerifiedTrue(id);
+    }
+
     public void delete(Long id) {
         bookRepository.deleteById(id);
     }
@@ -75,23 +91,23 @@ public class BookService {
     }
 
     public List<Book> listByName(String filter){
-        return bookRepository.findBooksByNameContains(filter);
+        return bookRepository.findBooksByNameContainsAndVerifiedTrue(filter);
     }
 
     public List<Book> listByAuthor(Author author){
-        return bookRepository.findBooksByAuthorsContains(author);
+        return bookRepository.findBooksByAuthorsContainsAndVerifiedTrue(author);
     }
 
     public List<Book> listByGenre(Genre genre){
-        return bookRepository.findBooksByGenresContains(genre);
+        return bookRepository.findBooksByGenresContainsAndVerifiedTrue(genre);
     }
 
     public List<Book> listByAdderUser(User user){
-        return bookRepository.findBooksByAdderUser(user);
+        return bookRepository.findBooksByAdderUserAndVerifiedTrue(user);
     }
 
     public List<Book> listByUserArchive(User user){
-        return bookRepository.findBooksByUsersArchiveContains(user);
+        return bookRepository.findBooksByUsersArchiveContainsAndVerifiedTrue(user);
     }
 
     public boolean exist(Long id){

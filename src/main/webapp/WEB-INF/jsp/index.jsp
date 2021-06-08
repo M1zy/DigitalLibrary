@@ -52,7 +52,7 @@
             <div id="content">
                 <img src="../../resources/css/images/elibrary.jpg" width="720" height="252" alt="" />
                 <div class="books">
-                    <c:if test="${mode == 'Mode_home'||mode==null}">
+                    <c:if test="${mode == 'Mode_Home'||mode==null}">
                         <jsp:include page="user/Books.jsp" />
                     </c:if>
                     <c:if test="${mode == 'Mode_registration' && user == null}">
@@ -75,6 +75,9 @@
                     </c:if>
                     <c:if test="${mode == 'Mode_archive'}">
                         <jsp:include page="user/Catalogue.jsp" />
+                    </c:if>
+                    <c:if test="${mode == 'Mode_adminAddBook'}">
+                        <jsp:include page="admin/AddBook.jsp" />
                     </c:if>
                 </div>
             </div>

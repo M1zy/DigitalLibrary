@@ -11,15 +11,19 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
-    List<Book> findBooksByNameContains(String name);
+    List<Book> findBooksByNameContainsAndVerifiedTrue(String name);
 
-    List<Book> findBooksByAuthorsContains(Author author);
+    List<Book> findBooksByVerifiedTrue();
 
-    List<Book> findBooksByGenresContains(Genre genre);
+    List<Book> findBooksByVerifiedFalse();
 
-    List<Book> findBooksByAdderUser(User user);
+    List<Book> findBooksByAuthorsContainsAndVerifiedTrue(Author author);
 
-    List<Book> findBooksByUsersArchiveContains(User user);
+    List<Book> findBooksByGenresContainsAndVerifiedTrue(Genre genre);
 
-    Book findBookById(Long index);
+    List<Book> findBooksByAdderUserAndVerifiedTrue(User user);
+
+    List<Book> findBooksByUsersArchiveContainsAndVerifiedTrue(User user);
+
+    Book findBookByIdAndVerifiedTrue(Long index);
 }

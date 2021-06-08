@@ -6,7 +6,12 @@
 <c:forEach items="${listBook}" var="book" >
     <ul>
         <li class="last" style="margin:3px;">
+            <c:if test="${mode == 'Mode_notVerifiedBooks'}">
+                <a href="VerificationPage/${book.id}"><img src="../../../resources/BookFiles/${book.image}" width="252" height="300" alt="" /></a>
+            </c:if>
+            <c:if test="${mode == 'Mode_adminBooks'}">
             <a href="redactingBook/${book.id}"><img src="../../../resources/BookFiles/${book.image}" width="252" height="300" alt="" /></a>
+            </c:if>
             <div  class="product-info">
                 <h3 >${book.name} (${book.year})</h3>
                 <div  class="product-desc">
@@ -16,6 +21,7 @@
         </li>
     </ul>
 </c:forEach>
+<c:if test="${mode == 'Mode_adminBooks'}">
 <ul style="padding-inline: 100px; font-size: 30px;">
     <c:if test="${currentPage gt 1}">
         <a href="/Catalog/${currentPage - 1}">Previous</a>
@@ -35,3 +41,4 @@
         <a href="/Catalog/${currentPage + 1}">Next</a>
     </c:if>
 </ul>
+    </c:if>
