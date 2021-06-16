@@ -1,5 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="https://www.google.com/recaptcha/api.js"></script>
+<p id="head">
+    <b id="Itemshead">  Authorization
+    </b>
+</p>
 <form action="loginUser" method="POST">
     <table style="font-size:16px;">
         <tr>

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<p id="head">
+    <b id="Itemshead">  Adding book
+    </b>
+</p>
 <form action="/addingBook" method="POST" enctype = "multipart/form-data">
     <table>
         <tr>

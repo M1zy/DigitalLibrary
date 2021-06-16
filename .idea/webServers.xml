@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="aa7af934-eaf6-46fb-b064-97f18b22964d" name="Digital library" url="http://digita1library.22web.org">
+        <fileTransfer rootFolder="/digita1library.22web.org" host="ftp.byethost10.com" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
